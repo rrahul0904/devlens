@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DevLens</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Workspaces">
+      <div class="brand" title="DevLens"><span>&lt;/&gt;</span></div>
+      <nav>
+        <button class="nav-item active" data-workspace="browser"><span class="nav-icon">⌂</span><span>Browser</span></button>
+        <button class="nav-item" data-workspace="rest"><span class="nav-icon">↗</span><span>REST</span></button>
+        <button class="nav-item" data-workspace="network"><span class="nav-icon">⌁</span><span>Network</span><span id="networkCount" class="count-badge">0</span></button>
+      </nav>
+      <div class="sidebar-footer">v0.1</div>
+    </aside>
+
+    <main class="workspace-shell">
+      <header class="topbar">
+        <div>
+          <h1 id="workspaceTitle">Browser</h1>
+          <p id="workspaceSubtitle">Preview a page and capture the navigation request.</p>
+        </div>
+        <div class="topbar-note">Focus UI · calm by default</div>
+      </header>
+
+      <section id="browserWorkspace" class="workspace active">
+        <div class="browser-toolbar panel">
+          <button id="browserBack" class="icon-button" title="Back" disabled>←</button>
+          <button id="browserRefresh" class="icon-button" title="Refresh">↻</button>
+          <input id="browserUrl" class="url-input" type="url" spellcheck="false" value="https://example.com" aria-label="Browser URL" />
+          <button id="browserGo" class="primary-button">Open</button>
+        </div>
+        <div class="preview-shell panel">
+          <div class="preview-meta">
+            <span id="browserStatus" class="status-text">Ready</span>
+            <span id="browserTiming" class="muted"></span>
+          </div>
+          <iframe id="browserFrame" title="Page preview" sandbox="allow-forms allow-popups" referrerpolicy="no-referrer"></iframe>
+        </div>
+      </section>
+
+      <section id="restWorkspace" class="workspace">
+        <div class="request-bar panel">
+          <select id="restMethod" aria-label="HTTP method">
+            <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option><option>HEAD</option>
+          </select>
+          <input id="restUrl" class="url-input" type="url" value="https://example.com" aria-label="Request URL" />
+          <button id="restSend" class="primary-button">Send</button>
+        </div>
+        <div class="split-grid">
+          <div class="panel editor-panel">
+            <div class="panel-heading"><span>Request</span><span class="muted">Headers and body</span></div>
+            <label>Headers<textarea id="restHeaders" spellcheck="false" placeholder="Accept: application/json"></textarea></label>
+            <label>Body<textarea id="restBody" spellcheck="false" placeholder='{"hello":"world"}'></textarea></label>
+          </div>
+          <div class="panel response-panel">
+            <div class="panel-heading"><span>Response</span><span id="restResponseMeta" class="muted">Not sent</span></div>
+            <pre id="restResponse">Send a request to inspect the response.</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="networkWorkspace" class="workspace">
+        <div class="network-grid">
+          <div class="panel network-list-panel">
+            <div class="panel-heading"><span>Captured requests</span><button id="clearNetwork" class="quiet-button">Clear</button></div>
+            <input id="networkFilter" class="filter-input" placeholder="Filter by URL or method" />
+            <div id="networkList" class="network-list"><div class="empty-state">No requests captured yet.</div></div>
+          </div>
+          <div class="panel network-detail-panel">
+            <div class="panel-heading"><span>Request details</span><button id="sendToRest" class="quiet-button" disabled>Send to REST</button></div>
+            <div id="networkDetail" class="detail-empty">Select a request to inspect status, timing, headers and response.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
